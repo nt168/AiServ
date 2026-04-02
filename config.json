@@ -1,0 +1,46 @@
+{
+  "service": {
+    "host": "127.0.0.1",
+    "port": 8000,
+    "api_key": "dummy",
+    "model_id": "qwen3.5-0.8b-mnn",
+    "model_name": "Qwen3.5 0.8B (MNN)",
+    "engine": "mnn",
+    "context_window": 32768,
+    "max_output_tokens": 2048,
+    "default_temperature": 0.7,
+    "default_top_p": 0.9
+  },
+  "mnn": {
+    "model_path": "/home/nt/models/Qwen35-08b_mnn/config.json",
+    "tokenizer_path": "",
+    "backend": "cpu",
+    "num_threads": 4,
+    "precision": "fp16",
+    "memory_mode": "normal",
+    "power_mode": "normal",
+    "prompt_template": "{system}\n\n{conversation}\nassistant:",
+    "command": [
+      "python3",
+      "/home/nt/aidev/AiServ/run_mnn.py"
+    ],
+    "command_cwd": "/home/nt/MNN-3.4.1/build",
+    "command_env": {},
+    "prompt_mode": "stdin",
+    "prompt_arg": "--prompt",
+    "max_tokens_arg": "--max-tokens",
+    "temperature_arg": "--temperature",
+    "top_p_arg": "--top-p",
+    "model_path_arg": "--model",
+    "tokenizer_path_arg": "",
+    "backend_arg": "--backend",
+    "threads_arg": "--threads",
+    "precision_arg": "--precision",
+    "extra_args": [],
+    "command_timeout_seconds": 300,
+    "stop_words": [
+      "<|im_end|>",
+      "<|endoftext|>"
+    ]
+  }
+}

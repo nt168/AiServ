@@ -1,0 +1,8 @@
+Metadata-Version: 2.4
+Name: aiserv
+Version: 0.1.0
+Summary: OpenAI-compatible local inference service for pi-mono with MNN integration points.
+Requires-Python: >=3.12
+Requires-Dist: fastapi<1.0.0,>=0.115.0
+Requires-Dist: pydantic<3.0.0,>=2.8.0
+Requires-Dist: uvicorn[standard]<1.0.0,>=0.30.0
