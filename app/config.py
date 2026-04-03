@@ -14,7 +14,7 @@ class ServiceConfig(BaseModel):
     api_key: str = "dummy"
     model_id: str = "qwen3.5-0.8b-mnn"
     model_name: str = "Qwen3.5 0.8B (MNN)"
-    engine: str = "mock"
+    engine: str = "mnn"
     context_window: int = 32768
     max_output_tokens: int = 2048
     default_temperature: float = 0.7
@@ -48,9 +48,30 @@ class MnnConfig(BaseModel):
     command_timeout_seconds: int = 300
 
 
+class LlamaCppConfig(BaseModel):
+    model_path: str = ""
+    n_ctx: int = 8192
+    n_threads: int = 4
+    temperature: float = 0.7
+    top_p: float = 0.9
+    stop_words: list[str] = Field(default_factory=lambda: ["", ""])
+    command: list[str] = Field(default_factory=list)
+    command_cwd: str = ""
+    command_env: dict[str, str] = Field(default_factory=dict)
+    prompt_mode: str = "stdin"
+    prompt_arg: str = "--prompt"
+    max_tokens_arg: str = "-n"
+    temperature_arg: str = "-t"
+    top_p_arg: str = "--top_p"
+    model_path_arg: str = "-m"
+    extra_args: list[str] = Field(default_factory=list)
+    command_timeout_seconds: int = 300
+
+
 class AppConfig(BaseModel):
     service: ServiceConfig = Field(default_factory=ServiceConfig)
     mnn: MnnConfig = Field(default_factory=MnnConfig)
+    llama_cpp: LlamaCppConfig = Field(default_factory=LlamaCppConfig)
 
 
 def _default_config_path() -> Path:

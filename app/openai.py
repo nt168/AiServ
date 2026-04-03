@@ -23,7 +23,7 @@ from app.schemas import (
     ModelsResponse,
 )
 
-from .engines import InferenceEngine, MnnEngine, MockEngine
+from .engines import InferenceEngine, MnnEngine, MockEngine, LlamaCppEngine
 
 router = APIRouter()
 logger = logging.getLogger("uvicorn.error")
@@ -34,6 +34,8 @@ def _build_engine(engine_name: str, config_json: str) -> InferenceEngine:
     config = AppConfig.model_validate_json(config_json)
     if engine_name == "mnn":
         return MnnEngine(config)
+    if engine_name == "llama_cpp":
+        return LlamaCppEngine(config)
     if engine_name == "mock":
         return MockEngine()
     raise HTTPException(status_code=500, detail=f"Unsupported engine: {engine_name}")
@@ -205,8 +207,10 @@ def chat_completions(
     config: AppConfig = Depends(get_config),
     engine: InferenceEngine = Depends(get_engine),
 ):
-    if body.model != config.service.model_id:
-        raise HTTPException(status_code=400, detail=f"Unknown model: {body.model}")
+    # 忽略请求中的 model 字段，总是用配置的默认模型
+    if body.model and body.model != config.service.model_id:
+        # 可以选择记录警告日志，但不报错
+        logger.warning(f"Requested model '{body.model}' ignored, using configured model '{config.service.model_id}'")
 
     request_body = _build_engine_request(body, config)
     _log_request_summary(body, request_body)
