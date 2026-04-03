@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -92,10 +93,10 @@ class LlamaCppEngine(InferenceEngine):
         if self._config.llama_cpp.model_path_arg:
             command.extend([self._config.llama_cpp.model_path_arg, str(self._runtime.model_path)])
 
-        if self._config.llama_cpp.n_ctx:
-            command.extend(["-n", str(self._config.llama_cpp.n_ctx)])
-        if self._config.llama_cpp.n_threads:
-            command.extend(["-t", str(self._config.llama_cpp.n_threads)])
+        if self._config.llama_cpp.n_ctx and self._config.llama_cpp.ctx_size_arg:
+            command.extend([self._config.llama_cpp.ctx_size_arg, str(self._config.llama_cpp.n_ctx)])
+        if self._config.llama_cpp.n_threads and self._config.llama_cpp.threads_arg:
+            command.extend([self._config.llama_cpp.threads_arg, str(self._config.llama_cpp.n_threads)])
         if self._config.llama_cpp.temperature is not None:
             if self._config.llama_cpp.temperature_arg:
                 command.extend([self._config.llama_cpp.temperature_arg, str(temperature)])
@@ -118,6 +119,10 @@ class LlamaCppEngine(InferenceEngine):
             command.extend([self._config.llama_cpp.prompt_arg, prompt])
         else:
             raise RuntimeError("Unsupported llama_cpp.prompt_mode; use 'stdin' or 'arg'")
+
+        # Debug: show the exact subprocess command being executed.
+        # 这个输出可以帮助诊断 --model 参数是否已添加。
+        print(f"[DEBUG] llama_cpp subprocess command: {command}", file=sys.stderr)
 
         try:
             completed = subprocess.run(

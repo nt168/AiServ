@@ -60,10 +60,12 @@ class LlamaCppConfig(BaseModel):
     command_env: dict[str, str] = Field(default_factory=dict)
     prompt_mode: str = "stdin"
     prompt_arg: str = "--prompt"
-    max_tokens_arg: str = "-n"
-    temperature_arg: str = "-t"
+    max_tokens_arg: str = "--max-tokens"
+    temperature_arg: str = "--temperature"
     top_p_arg: str = "--top_p"
-    model_path_arg: str = "-m"
+    model_path_arg: str = "--model"
+    threads_arg: str = "--threads"
+    ctx_size_arg: str = "--ctx-size"
     extra_args: list[str] = Field(default_factory=list)
     command_timeout_seconds: int = 300
 

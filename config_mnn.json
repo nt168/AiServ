@@ -3,13 +3,44 @@
     "host": "127.0.0.1",
     "port": 8000,
     "api_key": "dummy",
-    "model_id": "qwen3-8b-gguf",
-    "model_name": "Qwen3 8B (GGUF)",
-    "engine": "llama_cpp",
+    "model_id": "qwen3.5-0.8b",
+    "model_name": "Qwen3.5 0.8B",
+    "engine": "mnn",
     "context_window": 8192,
     "max_output_tokens": 2048,
     "default_temperature": 0.7,
     "default_top_p": 0.9
+  },
+  "models": {
+    "qwen3.5-0.8b-mnn": {
+      "engine": "mnn",
+      "model_name": "Qwen3.5 0.8B (MNN)",
+      "description": "MNN 后端模型"
+    },
+    "llama2-7b": {
+      "engine": "llama_cpp",
+      "model_name": "LLaMA 2 7B",
+      "description": "llama.cpp 后端模型"
+    }
+  },
+  "llama_cpp": {
+    "model_path": "/home/nt/models/llama2-7b/ggml-model-q4_0.bin",
+    "n_ctx": 8192,
+    "n_threads": 8,
+    "temperature": 0.7,
+    "top_p": 0.9,
+    "stop_words": ["", ""],
+    "command": ["/home/nt/llama.cpp/main", "-m"],
+    "command_cwd": "/home/nt/llama.cpp",
+    "command_env": {},
+    "prompt_mode": "stdin",
+    "prompt_arg": "--prompt",
+    "max_tokens_arg": "-n",
+    "temperature_arg": "-t",
+    "top_p_arg": "--top_p",
+    "model_path_arg": "-m",
+    "extra_args": [],
+    "command_timeout_seconds": 300
   },
   "mnn": {
     "model_path": "/home/nt/models/Qwen35-08b_mnn/config.json",
@@ -42,32 +73,5 @@
       "<|im_end|>",
       "<|endoftext|>"
     ]
-  },
-  "llama_cpp": {
-    "model_path": "/home/nt/models/Qwen3.5-2B-GGUF/Qwen3.5-2B-Q4_K_M.gguf",
-    "n_ctx": 8192,
-    "n_threads": 8,
-    "temperature": 0.7,
-    "top_p": 0.9,
-    "stop_words": ["", ""],
-    "command": [
-      "python3",
-      "/home/nt/aidev/AiServ/run_llama.py"
-    ],
-    "command_cwd": "/home/nt/aidev/AiServ",
-    "command_env": {},
-    "prompt_mode": "arg",
-    "prompt_arg": "--prompt",
-    "max_tokens_arg": "--max-tokens",
-    "temperature_arg": "--temperature",
-    "top_p_arg": "--top_p",
-    "model_path_arg": "--model",
-    "threads_arg": "--threads",
-    "ctx_size_arg": "--ctx-size",
-    "tokenizer_path_arg": "",
-    "backend_arg": "",
-    "precision_arg": "",
-    "extra_args": [],
-    "command_timeout_seconds": 300
   }
 }
